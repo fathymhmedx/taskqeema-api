@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  STUDENT
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  role         Role
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  student      Student?
+}
+
+model Student {
+  id        Int       @id @default(autoincrement())
+  userId    Int       @unique
+  name      String
+  grade     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  schoolId  Int
+  school    School    @relation(fields: [schoolId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favorites Favorite[]
+  
+  @@index([schoolId])
+}
+
+
+model School {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  logo      String?
+  phone     String
+
+  students  Student[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Lesson {
+  id          Int       @id @default(autoincrement())
+  title       String    @unique
+  description String
+  content     String
+  image       String?
+  rating      Float?     
+  sortOrder   Int       @default(0) 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  favorites  Favorite[]
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  lessonId  Int
+  createdAt DateTime @default(now())
+  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, lessonId])
+}

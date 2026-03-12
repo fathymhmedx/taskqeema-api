@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    overflow-x: hidden;
+  }
+  body {
+    @apply antialiased text-gray-900 bg-gray-50 min-w-0;
+  }
+}
+
+@layer components {
+  .container-content {
+    @apply w-full max-w-6xl mx-auto min-w-0;
+  }
+}
