@@ -33,7 +33,7 @@ Thumbs.db
 # Backend (Node + TS)
 # -----------------------
 backend/dist/
-backend/.env*
+backend/.env
 backend/.env.local
 backend/.env.development
 backend/.env.production
@@ -47,7 +47,7 @@ backend/.cache/
 frontend/.next/
 frontend/out/
 frontend/node_modules/
-frontend/.env*
+frontend/.env
 frontend/.env.local
 frontend/.env.development
 frontend/.env.production
